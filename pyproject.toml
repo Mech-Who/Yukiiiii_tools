@@ -17,17 +17,12 @@ classifiers = [
     'Natural Language :: Chinese (Simplified)',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Programming Language :: Python :: 3.12',
     'Topic :: Software Development :: Libraries'
+]
+dependencies = [
+    "netron"
 ]
 
 [project.urls]
 Homepage = "https://github.com/Mech-Who/Yukiiiii_tools"
 Issues = "https://github.com/Mech-Who/Yukiiiii_tools/issues"
-
-[project.dependencies]
-netron = "^7.7.4"

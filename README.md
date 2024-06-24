@@ -6,7 +6,24 @@
 
 ## 二、安装
 
-## 三、主要内容
+    ```shell
+    # 用https://pypi.org/simple/，避免镜像源没有及时更新
+    pip install -i https://pypi.org/simple/ yukiiiii_tools
+    ```
+
+## 三、用法示例
+
+    ```python
+    from yukiiiii_tools.calculate import add, subtract, multiply, divide
+    print(add(2, 2))
+    # >>> 4
+    print(subtract(2, 2))
+    # >>> 0
+    print(multiply(2, 2))
+    # >>> 4
+    print(divide(2, 2))
+    # >>> 1
+    ```
 
 ## 四、相关依赖
 

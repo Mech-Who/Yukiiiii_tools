@@ -48,3 +48,8 @@
     - 初始化项目：`pip install -r requirements.txt`安装依赖
     - 使用netron实现可视化onnx存储的模型
     - 使用Github Actions实现自动化部署
+
+## 六、修订记录
+
+- 2024.07.08：创建 AverageMeter 工具类，主要用于深度学习记录评价指标值。
+- 2024.06.24：引入 netron 库，用于可视化模型结构。

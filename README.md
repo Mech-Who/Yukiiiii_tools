@@ -37,6 +37,25 @@
         # 启动一个服务器用于可视化模型结构
         ```
 
+    3. 记录评价指标
+
+        ```python
+        from yukiiiii_tools.utils import AverageMeter
+
+        loss_meter = AverageMeter()
+        print(loss_meter.val, loss_meter.count, loss_meter.sum, loss_meter.avg)
+        # >>> 0 0 0 0
+        loss_meter.update(1.5)
+        print(loss_meter.val, loss_meter.count, loss_meter.sum, loss_meter.avg)
+        # >>> 1.5 1 1.5 1.5
+        loss_meter.update(2, 2)
+        print(loss_meter.val, loss_meter.count, loss_meter.sum, loss_meter.avg)
+        # >>> 2 3 5.5 1.8333333333333333
+        loss_meter.reset()
+        print(loss_meter.val, loss_meter.count, loss_meter.sum, loss_meter.avg)
+        # >>> 0 0 0 0
+        ```
+
 ## 四、相关依赖
 
     - netron：7.7.4

@@ -1,9 +1,9 @@
 import time
+from typing import Union, NoReturn
 from datetime import timedelta
 
 
-def sec_to_min(seconds):
-
+def sec_to_min(seconds: Union[float, int]) -> str:
     seconds = int(seconds)
     minutes = seconds // 60
     seconds_remaining = seconds % 60
@@ -14,12 +14,14 @@ def sec_to_min(seconds):
     return '{}:{}'.format(minutes, seconds_remaining)
 
 
-def sec_to_time(seconds):
+def sec_to_time(seconds: Union[float, int]) -> str:
     return "{:0>8}".format(str(timedelta(seconds=int(seconds))))
 
 
-def print_time_stats(t_train_start, t_epoch_start, epochs_remaining, steps_per_epoch):
-
+def print_time_stats(t_train_start: Union[float, int], 
+                     t_epoch_start: Union[float, int], 
+                     epochs_remaining: Union[float, int], 
+                     steps_per_epoch: Union[float, int]) -> NoReturn:
     elapsed_time = time.time() - t_train_start
     speed_epoch = time.time() - t_epoch_start
     speed_batch = speed_epoch / steps_per_epoch

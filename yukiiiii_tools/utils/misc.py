@@ -1,12 +1,13 @@
 import os
 import errno
 import random
+from typing import NoReturn
 
 import numpy as np
 import torch
 
 
-def setup_system(seed, cudnn_benchmark=True, cudnn_deterministic=True) -> None:
+def setup_system(seed: int, cudnn_benchmark: bool = True, cudnn_deterministic: bool = True) -> NoReturn:
     '''
     Set seeds for for reproducible training
     '''
@@ -24,7 +25,7 @@ def setup_system(seed, cudnn_benchmark=True, cudnn_deterministic=True) -> None:
         torch.backends.cudnn.deterministic = cudnn_deterministic
 
 
-def mkdir_if_missing(dir_path):
+def mkdir_if_missing(dir_path: str) -> NoReturn:
     try:
         os.makedirs(dir_path)
     except OSError as e:

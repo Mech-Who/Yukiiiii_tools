@@ -2,7 +2,7 @@ import torch
 
 
 # Convert bounding box format from [x1, y1, x2, y2] to [x, y, w, h]
-def xyxy2xywh(x: torch.Tensor):
+def xyxy2xywh(x: torch.Tensor) -> torch.Tensor:
     # y = torch.zeros(x.shape) if x.dtype is torch.float32 else np.zeros(x.shape)
     y = torch.zeros_like(x)
     y[:, 0] = (x[:, 0] + x[:, 2]) / 2
@@ -13,7 +13,7 @@ def xyxy2xywh(x: torch.Tensor):
 
 
 # Convert bounding box format from [x, y, w, h] to [x1, y1, x2, y2]
-def xywh2xyxy(x: torch.Tensor):
+def xywh2xyxy(x: torch.Tensor) -> torch.Tensor:
     # y = torch.zeros(x.shape) if x.dtype is torch.float32 else np.zeros(x.shape)
     y = torch.zeros_like(x)
     y[:, 0] = (x[:, 0] - x[:, 2] / 2)
@@ -23,7 +23,7 @@ def xywh2xyxy(x: torch.Tensor):
     return y
 
 
-def bbox_iou(box1: torch.Tensor, box2: torch.Tensor, x1y1x2y2=True):
+def bbox_iou(box1: torch.Tensor, box2: torch.Tensor, x1y1x2y2=True) -> float:
     """
     Returns the IoU of two bounding boxes
     """

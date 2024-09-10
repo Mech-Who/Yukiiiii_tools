@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import NoReturn
 
 import torch
 from torch.utils.tensorboard import SummaryWriter
@@ -9,17 +10,26 @@ from .misc import mkdir_if_missing
 
 
 class TensorboardLogger(object):
-    def __init__(self, log_dir):
+    def __init__(self, log_dir: str):
         self.writer = SummaryWriter(logdir=log_dir)
         self.step = 0
 
-    def set_step(self, step=None):
+    def __del__(self):
+        self.writer.close()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, *args):
+        self.close()
+
+    def set_step(self, step: int = None) -> NoReturn:
         if step is not None:
             self.step = step
         else:
             self.step += 1
 
-    def update(self, head='scalar', step=None, **kwargs):
+    def update(self, head: str = 'scalar', step: int = None, **kwargs) -> NoReturn:
         for k, v in kwargs.items():
             if v is None:
                 continue
@@ -29,31 +39,30 @@ class TensorboardLogger(object):
             self.writer.add_scalar(
                 head + "/" + k, v, self.step if step is None else step)
 
-    def flush(self):
+    def flush(self) -> NoReturn:
         self.writer.flush()
-
-    def __del__(self):
-        self.writer.close()
 
 
 class ProgressMeter(object):
-    def __init__(self, num_batches, meters, prefix=""):
+    # TODO: 测试show_func参数来代替写死的print是否可行
+    def __init__(self, num_batches, meters, show_func=print, prefix=""):
         self.batch_fmtstr = self._get_batch_fmtstr(num_batches)
         self.meters = meters
         self.prefix = prefix
+        self.show_func = show_func
 
-    def display(self, batch):
+    def display(self, batch: str) -> NoReturn:
         entries = [self.prefix + self.batch_fmtstr.format(batch)]
         entries += [str(meter) for meter in self.meters]
-        print('\t'.join(entries))
+        self.show_func('\t'.join(entries))
 
-    def _get_batch_fmtstr(self, num_batches):
+    def _get_batch_fmtstr(self, num_batches: int) -> str:
         num_digits = len(str(num_batches // 1))
         fmt = '{:' + str(num_digits) + 'd}'
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
 
 
-class AverageMeter:
+class AverageMeter(object):
     """
     Computes and stores the average and current value
     """
@@ -64,13 +73,13 @@ class AverageMeter:
         self.sum = 0
         self.count = 0
 
-    def reset(self):
+    def reset(self) -> NoReturn:
         self.val = 0
         self.avg = 0
         self.sum = 0
         self.count = 0
 
-    def update(self, val):
+    def update(self, val: Union[float, int]) -> NoReturn:
         self.val = val
         self.sum += val
         self.count += 1
@@ -92,20 +101,17 @@ class Logger(object):
         pass
 
     def __exit__(self, *args):
-        self.close()
+        self.console.close()
+        if self.file is not None:
+            self.file.close()
 
-    def write(self, msg):
+    def write(self, msg) -> NoReturn:
         self.console.write(msg)
         if self.file is not None:
             self.file.write(msg)
 
-    def flush(self):
+    def flush(self) -> NoReturn:
         self.console.flush()
         if self.file is not None:
             self.file.flush()
             os.fsync(self.file.fileno())
-
-    def close(self):
-        self.console.close()
-        if self.file is not None:
-            self.file.close()
